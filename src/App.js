@@ -5,6 +5,7 @@ import {
   Switch,
   Route
 } from "react-router-dom";
+import HomePage from './components/home';
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
         <Navbar />
         <Switch>
           <Route exact path="/">
-            <p>This is the homepage</p>
+            <HomePage />
           </Route>
           <Route path="/deals">
             <p>This is the deals page</p>

@@ -1,24 +1,8 @@
 import React, { Component } from 'react';
+import './home.css';
+import ItemCard from './card';
 
 const itemURL = 'https://gp-super-store-api.herokuapp.com/item/list';
-
-
-const ItemCard = (props) => {
-    const item = props.data
-    return (
-        <>
-            {item &&
-                <div>
-                    <img src={item.imageUrl} alt="imgs" />
-                    <p>{item.name}</p>
-                    <p>{item.avgRating}</p>
-                    <p>{item.price}</p>
-                </div>
-            }
-        </>
-
-    )
-}
 
 class HomePage extends Component {
     state = {
@@ -40,11 +24,9 @@ class HomePage extends Component {
         const { items } = this.state
         // console.log(items)
         return (
-            <div>
-                {/* <ItemCard data={items[0]} /> */}
+            <div className="item-container">
                 {
-
-                    items.map((item, index) => <ItemCard key={index} data={item} />)
+                    items.map((item, index) => <ItemCard key={index} {...item} />)
                 }
             </div>
         );

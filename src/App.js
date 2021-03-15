@@ -6,6 +6,7 @@ import {
   Route
 } from "react-router-dom";
 import HomePage from './components/home';
+import ItemPage from './components/item';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/cart">
             <p>This is the cart page</p>
           </Route>
+          <Route path="/item/:itemId" component={ItemPage} />
         </Switch>
       </Router>
 

@@ -1,8 +1,7 @@
-import React from 'react';
+import './deal.css';
 import ItemCard from '../card';
-import './home.css';
 
-export default function HomePage({items}) {
+export default function DealsPage({ items }) {
     return (
         <div className="container">
             {
@@ -11,5 +10,3 @@ export default function HomePage({items}) {
         </div>
     );
 }
-
-

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './item.css';
 import Review from '../reviewStar/review';
+import default_img from '../../img/product-default-img.jpg';
 
 const url = 'https://gp-super-store-api.herokuapp.com/item/'
 
@@ -19,13 +20,16 @@ class Item extends Component {
         this.setState({ itemdata })
     }
 
-
+    addDefaultSrc = function(e){
+        e.target.src = default_img
+    }
+    
     render() {
         const { avgRating, description, imageUrl, name, price } = this.state.itemdata
         return (
             <div className="item-container">
                 <div className="itemImg">
-                    <img src={imageUrl} alt={`cover of ${name}`} />
+                    <img onError={this.addDefaultSrc} src={imageUrl} alt={`cover of ${name}`} />
                 </div>
                 <div className="itemText">
                     <h1>{name}</h1>

@@ -4,21 +4,9 @@ import './card.css';
 import { Link } from 'react-router-dom';
 import default_img from '../../img/product-default-img.jpg';
 
-function isImageValid(url) {
-    let request = new XMLHttpRequest();
-    request.open("GET", url, true);
-    request.send();
-    request.onload = function () {
-        let status = request.status;
-        if (request.status == 200) {
-            console.log("image exists");
-        }
-        else {
-            console.log("image doesn't exist");
-        }
-    }
-    return request.status == 200
-}
+let addDefaultSrc = function(e){
+    e.target.src = default_img
+  }
 
 export default function ItemCard(props) {
     return (
@@ -26,7 +14,7 @@ export default function ItemCard(props) {
             {props &&
                 <div className="cardWrapper">
                     <div className="card">
-                        <img src={props.imageUrl} alt="imgs" className="cardImg" />
+                        <img onError={addDefaultSrc} src={props.imageUrl} alt="imgs" className="cardImg" />
                         <div className="cardIntro">
                             <p>{props.name}</p>
                             <Review score={props.avgRating} />

@@ -14,17 +14,25 @@ const itemURL = 'https://gp-super-store-api.herokuapp.com/item/list';
 
 class App extends Component {
   state = {
-    items: []
+    items: [],
+    itemsOnSale: []
   }
 
   componentDidMount() {
     this.getItems()
+    this.getItemsOnSale()
   }
 
   getItems = async function () {
     let response = await fetch(itemURL)
     let data = await response.json()
     this.setState({ items: data.items })
+  }
+
+  getItemsOnSale = async function () {
+    let response = await fetch(itemURL + '?isOnSale=true')
+    let data = await response.json()
+    this.setState({ itemsOnSale: data.items })
   }
 
   render() {
@@ -37,7 +45,7 @@ class App extends Component {
               <HomePage items={this.state.items} />
             </Route>
             <Route path="/deals">
-              <DealsPage items={this.state.items.filter(item => item.isOnSale)}/>
+              <DealsPage items={this.state.itemsOnSale} />
             </Route>
             <Route path="/cart">
               <p>This is the cart page</p>

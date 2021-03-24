@@ -8,7 +8,9 @@
 div.item-container > div {
 	padding: 0 15px;
 }
-
+.itemText{
+	max-width: 400px;
+}
 .itemImg img {
 	max-height: 400px;
 }
@@ -27,17 +29,35 @@ div.item-container > div {
 }
 
 .num-bg {
+	text-align: center;
+	width: 50px;
+	border: none;
+	outline: none;
 	background-color: rgba(128, 128, 128, 0.418);
-	padding: 3px 30px;
+	padding: 5px 1px 5px 3px;
 }
+
+.invalidTag{
+	color: red;
+}
+.insuffTag{
+	max-width: 400px;
+	margin-top: 20px;
+	border-radius: 5px;
+	padding: 5px 10px;
+	background-color: #F8D7DA;
+	color: #9D4150;
+}
+
 .add-btn {
 	margin-top: 20px;
 	text-align: center;
 	cursor: pointer;
-	background-color: rgb(255, 174, 23);
+	background-color: #F08700;
 	color: white;
 	width: 120px;
-	padding: 5px 10px 5px 10px;
+	padding: 5px 10px;
+	border-radius: 5px;
 }
 
 @media only screen and (max-width: 768px) {
@@ -45,4 +65,7 @@ div.item-container > div {
         width: 90%;
         flex-direction: column;
     }
+	.itemText{
+		max-width: none;
+	}
 }

@@ -7,7 +7,10 @@ const url = 'https://gp-super-store-api.herokuapp.com/item/'
 
 class Item extends Component {
     state = {
-        itemdata: []
+        itemdata: [],
+        quantity: 1,
+        isInvalid: false,
+        isInsufficient: false
     }
     componentDidMount() {
         this.getItems()
@@ -20,12 +23,20 @@ class Item extends Component {
         this.setState({ itemdata })
     }
 
-    addDefaultSrc = function(e){
+    addDefaultSrc = function (e) {
         e.target.src = default_img
     }
-    
+
+    handleChange = (e) => {
+        const quantity = e.target.value
+        const isInvalid = parseInt(quantity) <= 0
+        const isInsufficient = parseInt(quantity) > this.state.itemdata.stockCount
+        this.setState({ quantity, isInvalid, isInsufficient })
+    }
+
     render() {
         const { avgRating, description, imageUrl, name, price } = this.state.itemdata
+        const { quantity, isInvalid, isInsufficient } = this.state
         return (
             <div className="item-container">
                 <div className="itemImg">
@@ -37,8 +48,12 @@ class Item extends Component {
                     <hr />
                     <p className="intro">{description}</p>
                     <div className="price"><strong>${price}</strong></div>
-                    <div>Quantity:  &nbsp;<span className="num-bg">1</span></div>
+                    <div>Quantity:  &nbsp;
+                        <input type="number" className="num-bg" min="1" value={quantity} onChange={this.handleChange} />
+                        {isInvalid && <span className="invalidTag"><strong>   Invalid Value!</strong></span>}
+                    </div>
                     <div className="add-btn">Add to Cart</div>
+                    {isInsufficient && <div className="insuffTag">Insufficient Stock!</div>}
                 </div>
             </div>
         );

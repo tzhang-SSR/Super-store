@@ -26,9 +26,10 @@
 	text-align: center;
 	margin: 0 auto;
 	cursor: pointer;
-	background-color: orange;
+	background-color: #F08700;
 	color: white;
 	font-weight: bold;
 	width: 120px;
 	padding: 10px;
+	border-radius: 3px;
 }

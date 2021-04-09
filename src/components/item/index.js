@@ -36,7 +36,7 @@ class Item extends Component {
 
     render() {
         const { avgRating, description, imageUrl, name, price } = this.state.itemdata
-        const { quantity, isInvalid, isInsufficient } = this.state
+        const { quantity, isInvalid, isInsufficient, itemdata } = this.state
         return (
             <div className="item-container">
                 <div className="itemImg">
@@ -49,7 +49,7 @@ class Item extends Component {
                     <p className="intro">{description}</p>
                     <div className="price"><strong>${price}</strong></div>
                     <div>Quantity:  &nbsp;
-                        <input type="number" className="num-bg" min="1" value={quantity} onChange={this.handleChange} />
+                        <input type="number" className="num-bg" min="1" max={itemdata.stockCount} value={quantity} onChange={this.handleChange} />
                         {isInvalid && <span className="invalidTag"><strong>   Invalid Value!</strong></span>}
                     </div>
                     <div className="add-btn">Add to Cart</div>

@@ -9,13 +9,14 @@ import Navbar from './components/navbar';
 import HomePage from './components/home';
 import ItemPage from './components/item';
 import DealsPage from './components/deal';
-
-const itemURL = 'https://gp-super-store-api.herokuapp.com/item/list';
+import fetchItemList from './utils/api';
+import search_solid from './img/search_solid.svg'
 
 class App extends Component {
   state = {
     items: [],
-    itemsOnSale: []
+    itemsOnSale: [],
+    query: ''
   }
 
   componentDidMount() {
@@ -23,16 +24,19 @@ class App extends Component {
     this.getItemsOnSale()
   }
 
-  getItems = async function () {
-    let response = await fetch(itemURL)
-    let data = await response.json()
-    this.setState({ items: data.items })
+  getItems = function () {
+    fetchItemList().then(data => this.setState({ items: data.items }))
   }
 
   getItemsOnSale = async function () {
-    let response = await fetch(itemURL + '?isOnSale=true')
-    let data = await response.json()
-    this.setState({ itemsOnSale: data.items })
+    const isOnSale = '?isOnSale=true'
+    fetchItemList(isOnSale).then(data => this.setState({ itemsOnSale: data.items }))
+  }
+
+  searchItems = (e) => {
+    this.setState({ query: e.target.value })
+    const str = `?sortDir=asc&q=${e.target.value}`
+    fetchItemList(str).then(data => this.setState({ items: data.items }))
   }
 
   render() {
@@ -40,6 +44,13 @@ class App extends Component {
       <div className="App">
         <Router>
           <Navbar />
+          <div className="searchBar-container">
+            <div className="searchBar">
+              <input id="searchBar" onChange={this.searchItems} value={this.state.query} placeholder="Search" />
+              <div id="clearSign">X</div>
+              <div id="searchBtn"><i className="fa fa-search"></i></div>
+            </div>
+          </div>
           <Switch>
             <Route exact path="/">
               <HomePage items={this.state.items} />

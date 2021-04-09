@@ -1,6 +1,7 @@
 .cardWrapper {
 	padding: 20px 25px 50px 25px;
 	border: solid 1px;
+	max-width: 350px;
 }
 .cardWrapper a{
 	text-decoration: none;

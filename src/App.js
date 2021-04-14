@@ -11,13 +11,13 @@ import ItemPage from './components/item';
 import DealsPage from './components/deal';
 import fetchItemList from './utils/api';
 import Pagination from './components/pagination';
+import SearchBar from './components/searchBar';
 
 const pageSize = 6;
 
 class App extends Component {
   state = {
     items: [],
-    currItems: [],
     itemsOnSale: [],
     query: '',
     currPage: 1,
@@ -25,6 +25,7 @@ class App extends Component {
   }
 
   componentDidMount() {
+    this.getItemsLength()
     this.getCurrPage(this.state.currPage)
     this.getItemsOnSale()
   }
@@ -34,13 +35,12 @@ class App extends Component {
     fetchItemList(`?from=${(pageNum - 1) * pageSize}&size=${pageSize}&sortDir=asc`)
       .then(data => this.setState({
         items: data.items,
-        total: data.items.length,
         currPage: pageNum
       }))
   }
 
-  getItems = function () {
-    fetchItemList().then(data => this.setState({ items: data.items }))
+  getItemsLength = function () {
+    fetchItemList().then(data => this.setState({ total: Math.ceil(data.items.length / pageSize), }))
   }
 
   getItemsOnSale = async function () {
@@ -56,33 +56,31 @@ class App extends Component {
 
   clearQuery = () => {
     this.setState({ query: '' })
-    this.getItems()
+    this.getCurrPage(this.state.currPage)
   }
 
   render() {
     const { query, items } = this.state
     const noResult = query.length > 0 && items.length == 0
+    const notSearching = query.length == 0
     return (
       <div className="App">
         <Router>
           <Navbar />
-          <div className="searchBar-container">
-            <div className="searchBar">
-              <input id="searchBar" onChange={this.searchItems} value={this.state.query} placeholder="Search" />
-              <div id="clearSign" onClick={this.clearQuery}>X</div>
-              <div id="searchBtn"><i className="fa fa-search"></i></div>
-            </div>
-          </div>
           <Switch>
             <Route exact path="/">
+              <SearchBar searchItems={this.searchItems} query={this.state.query} clearQuery={this.clearQuery} />
               {noResult
-                ? <p>No Result for Current Search</p>
+                ? <p className="noresult">No result for current search. Try another word.</p>
                 : <>
                   <HomePage items={this.state.items} />
-                  <Pagination currPage={this.state.currPage}
-                    getCurrPage={this.getCurrPage}
-                    total={this.state.total}
-                  />
+                  {
+                    notSearching &&
+                    <Pagination currPage={this.state.currPage}
+                      getCurrPage={this.getCurrPage}
+                      total={this.state.total}
+                    />
+                  }
                 </>
               }
             </Route>

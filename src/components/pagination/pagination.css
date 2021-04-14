@@ -15,16 +15,20 @@
     margin: 0 10px;
     text-align: center;
     display: inline-block;
-    border-radius: 20px;
-    border: solid 2px black;
+    border-radius: 100px;
+    border: solid 1.5px black;
 }
 
 .pagination li:hover{
     color: gray;
 }
-
+li#pageNum{
+    border: none;
+    border-radius: none;
+    font-size: 20px;
+}
 li.disabled{
     cursor: not-allowed;
     color: gray;
-    border: solid 2px gray;
+    border: solid 1.5px gray;
 }

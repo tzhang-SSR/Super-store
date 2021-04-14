@@ -1,0 +1,34 @@
+.searchBar-container {
+	padding: 15px;
+	background-color: #EBEBEB;
+}
+
+.searchBar {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#searchBar, #clearSign{
+	height: 25px;
+	background-color: white;
+}
+#searchBar {
+	width: 25%;
+	min-width: 300px;
+	outline: none;
+	border: none;
+	padding-left: 10px;
+    border-radius: 5px 0 0 5px;
+}
+#clearSign {
+	padding-right: 10px;
+	cursor: pointer;
+}
+#searchBtn {
+	background-color: #F08700;
+	color: white;
+	text-align: center;
+	height: 25px;
+	width: 30px;
+    border-radius: 0 5px 5px 0;
+}

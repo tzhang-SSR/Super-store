@@ -20,6 +20,7 @@ export default function Pagination({ currPage, getCurrPage, total }) {
                         </li>
                     </>
             }
+            <li id="pageNum">1 - {total.toString()}</li>
             {isLastPage
                 ? <>
                     <li className="disabled"><i className="fa fa-angle-right"></i></li>

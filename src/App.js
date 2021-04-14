@@ -10,18 +10,33 @@ import HomePage from './components/home';
 import ItemPage from './components/item';
 import DealsPage from './components/deal';
 import fetchItemList from './utils/api';
-import search_solid from './img/search_solid.svg'
+import Pagination from './components/pagination';
+
+const pageSize = 6;
 
 class App extends Component {
   state = {
     items: [],
+    currItems: [],
     itemsOnSale: [],
-    query: ''
+    query: '',
+    currPage: 1,
+    total: 0
   }
 
   componentDidMount() {
-    this.getItems()
+    this.getCurrPage(this.state.currPage)
     this.getItemsOnSale()
+  }
+
+  getCurrPage = (pageNum) => {
+    window.scrollTo(0, 0)
+    fetchItemList(`?from=${(pageNum - 1) * pageSize}&size=${pageSize}&sortDir=asc`)
+      .then(data => this.setState({
+        items: data.items,
+        total: data.items.length,
+        currPage: pageNum
+      }))
   }
 
   getItems = function () {
@@ -39,7 +54,14 @@ class App extends Component {
     fetchItemList(str).then(data => this.setState({ items: data.items }))
   }
 
+  clearQuery = () => {
+    this.setState({ query: '' })
+    this.getItems()
+  }
+
   render() {
+    const { query, items } = this.state
+    const noResult = query.length > 0 && items.length == 0
     return (
       <div className="App">
         <Router>
@@ -47,13 +69,22 @@ class App extends Component {
           <div className="searchBar-container">
             <div className="searchBar">
               <input id="searchBar" onChange={this.searchItems} value={this.state.query} placeholder="Search" />
-              <div id="clearSign">X</div>
+              <div id="clearSign" onClick={this.clearQuery}>X</div>
               <div id="searchBtn"><i className="fa fa-search"></i></div>
             </div>
           </div>
           <Switch>
             <Route exact path="/">
-              <HomePage items={this.state.items} />
+              {noResult
+                ? <p>No Result for Current Search</p>
+                : <>
+                  <HomePage items={this.state.items} />
+                  <Pagination currPage={this.state.currPage}
+                    getCurrPage={this.getCurrPage}
+                    total={this.state.total}
+                  />
+                </>
+              }
             </Route>
             <Route path="/deals">
               <DealsPage items={this.state.itemsOnSale} />

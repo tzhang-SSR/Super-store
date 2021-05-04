@@ -8,28 +8,40 @@ export default function Pagination({ currPage, getCurrPage, total }) {
             {
                 isFirstPage
                     ? <>
-                        <li className="disabled"><i className="fa fa-angle-double-left"></i></li>
-                        <li className="disabled"><i className="fa fa-angle-left"></i></li>
+                        <li>
+                            <button className="disabled"><i className="fa fa-angle-double-left"></i></button>
+                        </li>
+                        <li>
+                            <button className="disabled"><i className="fa fa-angle-left"></i></button>
+                        </li>
                     </>
                     : <>
                         <li onClick={() => getCurrPage(1)}>
-                            <i className="fa fa-angle-double-left"></i>
+                            <button><i className="fa fa-angle-double-left"></i></button>
                         </li>
                         <li onClick={() => getCurrPage(currPage - 1)}>
-                            <i className="fa fa-angle-left"></i>
+                            <button><i className="fa fa-angle-left"></i></button>
                         </li>
                     </>
             }
             <li id="pageNum">1 - {total.toString()}</li>
             {isLastPage
                 ? <>
-                    <li className="disabled"><i className="fa fa-angle-right"></i></li>
-                    <li className="disabled"><i className="fa fa-angle-double-right"></i></li>
+                    <li>
+                        <button className="disabled"><i className="fa fa-angle-right"></i></button>
+                    </li>
+                    <li>
+                        <button className="disabled"><i className="fa fa-angle-double-right"></i></button>
+                    </li>
                 </>
                 :
                 <>
-                    <li onClick={() => getCurrPage(currPage + 1)}><i className="fa fa-angle-right"></i></li>
-                    <li onClick={() => getCurrPage(5)}><i className="fa fa-angle-double-right"></i></li>
+                    <li onClick={() => getCurrPage(currPage + 1)}>
+                        <button><i className="fa fa-angle-right"></i></button>
+                    </li>
+                    <li onClick={() => getCurrPage(total)}>
+                        <button><i className="fa fa-angle-double-right"></i></button>
+                    </li>
                 </>
             }
         </ul>

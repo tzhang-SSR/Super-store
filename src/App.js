@@ -9,9 +9,9 @@ import Navbar from './components/navbar';
 import HomePage from './components/home';
 import ItemPage from './components/item';
 import DealsPage from './components/deal';
+import CartPage from './components/cart'
 import fetchItemList from './utils/api';
-import Pagination from './components/pagination';
-import SearchBar from './components/searchBar';
+import ShopContext from './context/shop-context';
 
 const pageSize = 6;
 
@@ -21,11 +21,19 @@ class App extends Component {
     itemsOnSale: [],
     query: '',
     currPage: 1,
-    total: 0
+    total: 0,
+    products: [
+      { id: 'p1', title: 'yooooo', price: 20.5 },
+      { id: 'p2', title: 'yooooo', price: 20.5 },
+      { id: 'p3', title: 'yooooo', price: 20.5 }
+    ],
+    cart: [],
   }
 
+  addProdutToCart = product => { }
+  removeProductfromCart = productId => { }
+
   componentDidMount() {
-    this.getItemsLength()
     this.getCurrPage(this.state.currPage)
     this.getItemsOnSale()
   }
@@ -35,12 +43,9 @@ class App extends Component {
     fetchItemList(`?from=${(pageNum - 1) * pageSize}&size=${pageSize}&sortDir=asc`)
       .then(data => this.setState({
         items: data.items,
+        total: Math.ceil(data.total / pageSize),
         currPage: pageNum
       }))
-  }
-
-  getItemsLength = function () {
-    fetchItemList().then(data => this.setState({ total: Math.ceil(data.items.length / pageSize), }))
   }
 
   getItemsOnSale = async function () {
@@ -48,10 +53,22 @@ class App extends Component {
     fetchItemList(isOnSale).then(data => this.setState({ itemsOnSale: data.items }))
   }
 
-  searchItems = (e) => {
+  debounce = (func, delay) => {
+    let timeoutID
+    return function (...args) {
+      if (timeoutID) {
+        clearTimeout(timeoutID)
+      }
+      timeoutID = setTimeout(() => {
+        func(...args)
+      }, delay)
+    }
+  }
+
+  onSearch = (e) => {
     this.setState({ query: e.target.value })
     const str = `?sortDir=asc&q=${e.target.value}`
-    fetchItemList(str).then(data => this.setState({ items: data.items }))
+    this.debounce(fetchItemList(str).then(data => this.setState({ items: data.items })), 5000)
   }
 
   clearQuery = () => {
@@ -60,40 +77,39 @@ class App extends Component {
   }
 
   render() {
-    const { query, items } = this.state
-    const noResult = query.length > 0 && items.length == 0
-    const notSearching = query.length == 0
+    const { query, items, currPage, total } = this.state
     return (
-      <div className="App">
-        <Router>
-          <Navbar />
-          <Switch>
-            <Route exact path="/">
-              <SearchBar searchItems={this.searchItems} query={this.state.query} clearQuery={this.clearQuery} />
-              {noResult
-                ? <p className="noresult">No result for current search. Try another word.</p>
-                : <>
-                  <HomePage items={this.state.items} />
-                  {
-                    notSearching &&
-                    <Pagination currPage={this.state.currPage}
-                      getCurrPage={this.getCurrPage}
-                      total={this.state.total}
-                    />
-                  }
-                </>
-              }
-            </Route>
-            <Route path="/deals">
-              <DealsPage items={this.state.itemsOnSale} />
-            </Route>
-            <Route path="/cart">
-              <p>This is the cart page</p>
-            </Route>
-            <Route path="/item/:itemId" component={ItemPage} />
-          </Switch>
-        </Router>
-      </div>
+      <ShopContext.Provider value={{
+        products: this.state.products,
+        cart: this.state.cart,
+        addProdutToCart: this.addProdutToCart,
+        removeProductfromCart: this.removeProductfromCart
+      }}>
+        <div className="App">
+          <Router>
+            <Navbar />
+            <Switch>
+              <Route exact path="/">
+                <HomePage items={items}
+                  query={query}
+                  currPage={currPage}
+                  total={total}
+                  onSearch={this.onSearch}
+                  clearQuery={this.clearQuery}
+                  getCurrPage={this.getCurrPage}
+                />
+              </Route>
+              <Route path="/deals">
+                <DealsPage items={this.state.itemsOnSale} />
+              </Route>
+              <Route path="/cart">
+                <CartPage />
+              </Route>
+              <Route path="/item/:itemId" component={ItemPage} />
+            </Switch>
+          </Router>
+        </div>
+      </ShopContext.Provider>
     );
   }
 }

@@ -30,8 +30,21 @@ class App extends Component {
     cart: [],
   }
 
-  addProdutToCart = product => { }
-  removeProductfromCart = productId => { }
+  addProdutToCart = product => {
+    let newCart = [...this.state.cart]
+    let productIndex = newCart.findIndex(item => item.productID == product.productID)
+    if (productIndex < 0) {
+      newCart.push(product)
+    }
+    else {
+      newCart[productIndex].quantity += parseInt(product.quantity)
+    }
+    this.setState({ cart: newCart })
+  }
+
+  removeProductfromCart = () => {
+    console.log("product has been removed")
+  }
 
   componentDidMount() {
     this.getCurrPage(this.state.currPage)

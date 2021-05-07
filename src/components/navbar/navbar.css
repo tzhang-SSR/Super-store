@@ -31,6 +31,16 @@
 	font-weight: 600;
 }
 
+#itemcount{
+	background-color: red;
+	font-size: 12px;
+	vertical-align: top;
+	border-radius: 100px;
+	padding: 0 5px;
+	text-align: center;
+	margin-left: -8px;
+}
+
 @media only screen and (max-width: 768px) {
 	.navbar .links {
 		width: 60%;

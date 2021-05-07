@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import star_empty from '../../img/star_empty.svg';
 import star_full from '../../img/star_full.svg';
 import star_half from '../../img/star_half.svg';

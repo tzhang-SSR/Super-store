@@ -49,7 +49,7 @@ class Item extends Component {
             imageUrl,
             productID: this.props.match.params.itemId
         }
-        console.log("cartitem", cartItem)
+        //console.log("cartitem", cartItem)
         return (
             <div className="item-container">
                 <div className="itemImg">
@@ -57,7 +57,7 @@ class Item extends Component {
                 </div>
                 <div className="itemText">
                     <h1>{name}</h1>
-                    {avgRating && <Review score={avgRating} />}
+                    {avgRating >=0 && <Review score={avgRating} />}
                     <hr />
                     <p className="intro">{description}</p>
                     <div className="price"><strong>${price}</strong></div>

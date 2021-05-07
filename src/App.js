@@ -42,8 +42,11 @@ class App extends Component {
     this.setState({ cart: newCart })
   }
 
-  removeProductfromCart = () => {
-    console.log("product has been removed")
+  removeProduct = productID => {
+    let newCart = [...this.state.cart]
+    let productIndex = newCart.findIndex(item => item.productID == productID)
+    newCart.splice(productIndex, 1)
+    this.setState({ cart: newCart })
   }
 
   componentDidMount() {
@@ -96,7 +99,7 @@ class App extends Component {
         products: this.state.products,
         cart: this.state.cart,
         addProdutToCart: this.addProdutToCart,
-        removeProductfromCart: this.removeProductfromCart
+        removeProduct: this.removeProduct
       }}>
         <div className="App">
           <Router>

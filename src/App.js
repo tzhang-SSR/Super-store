@@ -1,15 +1,12 @@
 import './App.css';
 import React, { Component } from 'react';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, } from "react-router-dom";
 import Navbar from './components/navbar';
 import HomePage from './components/home';
 import ItemPage from './components/item';
 import DealsPage from './components/deal';
-import CartPage from './components/cart'
+import CartPage from './components/cart';
+import CheckoutPage from './components/checkout';
 import fetchItemList from './utils/api';
 import ShopContext from './context/shop-context';
 
@@ -47,6 +44,22 @@ class App extends Component {
     let productIndex = newCart.findIndex(item => item.productID == productID)
     newCart.splice(productIndex, 1)
     this.setState({ cart: newCart })
+  }
+
+  editProductCount = (productID, count) => {
+    if (count == 0) {
+      this.removeProduct(productID)
+    }
+    else {
+      let newCart = [...this.state.cart]
+      let productIndex = newCart.findIndex(item => item.productID == productID)
+      newCart[productIndex].quantity = parseInt(count)
+      this.setState({ cart: newCart })
+    }
+  }
+
+  clearCart = () => {
+    this.setState({ cart: [] })
   }
 
   componentDidMount() {
@@ -99,7 +112,9 @@ class App extends Component {
         products: this.state.products,
         cart: this.state.cart,
         addProdutToCart: this.addProdutToCart,
-        removeProduct: this.removeProduct
+        removeProduct: this.removeProduct,
+        clearCart: this.clearCart,
+        editProductCount: this.editProductCount
       }}>
         <div className="App">
           <Router>
@@ -122,6 +137,7 @@ class App extends Component {
                 <CartPage />
               </Route>
               <Route path="/item/:itemId" component={ItemPage} />
+              <Route path="/checkout" component={CheckoutPage} />
             </Switch>
           </Router>
         </div>

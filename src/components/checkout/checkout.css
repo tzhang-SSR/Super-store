@@ -1,0 +1,25 @@
+.checkout{
+    width: 600px;
+    border: 1px solid;
+    margin: 40px auto;
+    text-align: center;
+    padding: 25px;
+}
+
+.checkout p{
+    width: 50%;
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+.checkout h1{
+    width: 60%;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    font-size: 25px;
+}
+
+.checkout button{
+    cursor: pointer;
+    border: none;
+    padding: 10px 15px;
+}

@@ -2,22 +2,55 @@
 	margin-top: 20px;
 }
 .cart-empty {
-    text-align: center;
+	text-align: center;
 	margin: 0 auto;
-    font-size: 25px;
+	font-size: 25px;
 }
 .cartItem {
 	margin: 0 auto;
 	width: 600px;
 	display: flex;
 	justify-content: space-between;
-    align-items: center;
+	align-items: center;
 	border: solid 1px;
-	padding: 5px 10px;
-    min-height: 120px;
-}
-.cartItem:not(:first-child) {
 	border-top: none;
+	padding: 5px 10px;
+	min-height: 120px;
+}
+#cartItem_first {
+	border-top: solid 1px;
+}
+
+.cart-title,
+.cart-checkout {
+	margin: 20px auto;
+	width: 620px;
+}
+.cart-title {
+	font-size: 25px;
+	font-weight: 600;
+}
+.cart-checkout {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+#checkout {
+	cursor: pointer;
+	padding: 8px 25px;
+	border-radius: 3px;
+	background-color: #f08700;
+	color: white;
+	font-weight: 400;
+	font-size: 16px;
+	outline: none;
+	border: none;
+}
+
+.cart-checkout .totalprice {
+	font-size: 25px;
+	margin-right: 10px;
 }
 
 .itemContent {
@@ -39,9 +72,11 @@
 .text-quantityBlock {
 	display: inline-block;
 	text-align: center;
-	width: 20px;
+	border: none;
+	outline: none;
+	width: 40px;
 	background-color: rgba(128, 128, 128, 0.418);
-	padding: 0 10px;
+	padding: 3px 3px 3px 10px;
 }
 .text-remove {
 	font-size: 12px;
@@ -54,7 +89,7 @@
 }
 
 .itemPrice {
-    height: 100px;
+	height: 100px;
 	font-size: 25px;
 	margin-right: 10px;
 }
